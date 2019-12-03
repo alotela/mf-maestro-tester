@@ -1,0 +1,8 @@
+demo
+docs
+src
+tests
+.eslintrc.js
+.gitignore
+.prettierrc.js
+webpack.config.js
