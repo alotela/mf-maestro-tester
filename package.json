@@ -1,0 +1,22 @@
+{
+  "author": "Charlie Eissen",
+  "description": "a tool to test and develop MfMaestro compatible microfrontends",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "babel-loader": "^8.0.6"
+  },
+  "keywords": [
+    "microservices",
+    "microfrontends"
+  ],
+  "license": "ISC",
+  "main": "./dist/index.js",
+  "name": "mf-maestro-tester",
+  "repository": "github:alotela/mf-maestro-tester",
+  "scripts": {
+    "build": "webpack --mode production"
+  },
+  "version": "0.0.1"
+}
