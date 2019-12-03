@@ -1,8 +1,9 @@
 demo
-docs
 src
 tests
 .eslintrc.js
 .gitignore
 .prettierrc.js
+CHANGELOG.md
+README.md
 webpack.config.js
