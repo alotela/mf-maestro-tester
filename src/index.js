@@ -1,16 +1,19 @@
+import JSON5 from 'json5';
+
 startStubbedMaestro();
 
 function startStubbedMaestro() {
   const callbacksStore = {};
   const options = buildStubbedMfMaestroOptions(callbacksStore);
+  const params = getUrlParams();
 
   window.MfMaestro = {
     events: options.events,
-    registerMicroApp: function(microAppName, microAppObject) {
+    registerMicroApp: function (microAppName, microAppObject) {
       microAppObject.start(
         document.getElementById(microAppName),
-        window.MfMaestroAppParams || {},
-        options
+        {...(window.MfMaestroAppParams || {}), ...params.routeParams},
+        {...options, ...params.queryParams}
       );
     }
   };
@@ -31,3 +34,12 @@ function buildStubbedMfMaestroOptions(callbacksStore) {
     },
   };
 }
+
+function getUrlParams() {
+  const urlParams = new URLSearchParams(window.location.search);
+  return {
+    routeParams: JSON5.parse(urlParams.get('route')) || {},
+    queryParams: JSON5.parse(urlParams.get('query')) || {}
+  };
+}
+
