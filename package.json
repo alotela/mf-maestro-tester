@@ -1,11 +1,15 @@
 {
   "author": "Charlie Eissen",
   "description": "a tool to test and develop MfMaestro compatible microfrontends",
-  "dependencies": {},
+  "dependencies": {
+    "json5": "^2.1.1"
+  },
   "devDependencies": {
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
-    "babel-loader": "^8.0.6"
+    "babel-loader": "^8.0.6",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
   },
   "keywords": [
     "microservices",
@@ -16,7 +20,8 @@
   "name": "mf-maestro-tester",
   "repository": "github:calions-app/mf-maestro-tester",
   "scripts": {
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "prepare": "rm -rf dist/ && npm run build"
   },
   "version": "0.0.1"
 }
