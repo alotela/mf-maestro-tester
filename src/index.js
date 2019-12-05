@@ -38,7 +38,7 @@ function buildStubbedMfMaestroOptions(callbacksStore) {
 function getUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
   return {
-    routeParams: JSON5.parse(urlParams.get('route')) || {},
+    routeParams: JSON5.parse(urlParams.get('params')) || {},
     queryParams: JSON5.parse(urlParams.get('query')) || {}
   };
 }
