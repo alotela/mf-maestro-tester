@@ -12,8 +12,8 @@ function startStubbedMaestro() {
     registerMicroApp: function (microAppName, microAppObject) {
       microAppObject.start(
         document.getElementById(microAppName),
-        {...(window.MfMaestroAppParams || {}), ...params.routeParams},
-        {...options, ...params.queryParams}
+        { ...(window.MfMaestroAppParams || {}), ...params.routeParams },
+        { ...options, ...params.queryParams }
       );
     }
   };
@@ -31,6 +31,10 @@ function buildStubbedMfMaestroOptions(callbacksStore) {
         callbacksStore[event]
           ? callbacksStore[event].push(callback)
           : (callbacksStore[event] = [callback]),
+    },
+    navigation: {
+      blockNavigation: () => console.log("Navigation blocked"),
+      unblockNavigation: () => console.log("Navigation unblocked")
     },
   };
 }
