@@ -2,14 +2,17 @@
   "author": "Charlie Eissen",
   "description": "a tool to test and develop MfMaestro compatible microfrontends",
   "dependencies": {
+    "fast-deep-equal": "^3.1.1",
     "json5": "^2.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.7.4",
     "@babel/preset-env": "^7.7.4",
     "babel-loader": "^8.0.6",
+    "testcafe": "^1.7.0",
     "webpack": "^4.41.2",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   },
   "keywords": [
     "microservices",
@@ -20,8 +23,11 @@
   "name": "mf-maestro-tester",
   "repository": "github:alotela/mf-maestro-tester",
   "scripts": {
-    "build": "webpack --mode production",
-    "prepare": "rm -rf dist/ && npm run build"
+    "build": "rm -rf dist/ && webpack --mode production",
+    "prepare": "rm -rf dist/ && npm run build",
+    "start": "rm -rf dist/ && webpack-dev-server --mode development",
+    "stop": "kill $(ps aux | grep '[w]ebpack-dev-server' | awk '{print $2}')",
+    "test": "(npm start &) && testcafe chrome:headless ./tests/*.test.js && npm run stop"
   },
   "version": "0.0.3"
 }
