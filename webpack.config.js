@@ -1,6 +1,10 @@
 const path = require("path");
 
 module.exports = {
+  devServer: {
+    contentBase: path.join(__dirname, "public/"),
+    port: 3000
+  },
   devtool: "inline-source-map",
   entry: "./src/index",
   module: {
@@ -18,8 +22,8 @@ module.exports = {
     ],
   },
   output: {
-    filename: "index.js",
+    filename: "app.js",
     libraryTarget: "umd",
-    path: path.resolve(__dirname, "dist"),
-  },
+    path: path.resolve(__dirname, "dist")
+  }
 };
