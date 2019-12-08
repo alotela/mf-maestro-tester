@@ -16,8 +16,8 @@ You can also add callbacks to listen some events with the ```on``` method:
 ```window.MfMaestro.events.on("your event name", callback)```  
 
 When your Mf is started by MfMaestro, the start function receives params and options.
-If you want to inject params into your MF, you can add a "route" argument to your page's query string, with a json5 payload:
-```http://localhost:3000/index.html?route={id:12,sub-id:12344}```
+If you want to inject params into your MF (url params), you can add a "params" argument to your page's query string, with a json5 payload:
+```http://localhost:3000/index.html?params={id:12,sub-id:12344}```
 
 You can also add queryParams available in ```options``` using the ```query``` argument :
 ```http://localhost:3000/index.html?query={order:asc,page:2}```  
@@ -31,4 +31,23 @@ MfMaestroAppParams={a:1, b: 2};
 </script>
 ```  
 
-This will be merged with ```route``` from query string.  
+This will be merged with ```params``` from query string.  
+
+## events queue for tests
+
+All emitted events are logged in a queue available on ```window.MfMaestro.outputEventsQueue```. An event il logged as a tuple ```[event, args]``` (string, array).  
+If you want to test for an event, you can use ```window.MfMaestro.eventHasBeenEmitted(event, args, options)```.  
+Options accepts these attributes:  
+
+- **count** : the number of times you expect the event has been emitted  
+
+You can have a look at the ```tests/test.js``` to find examples.  
+
+## navigation
+
+you can test for navigations block/unblock with these methods:
+
+- ```window.MfMaestro.isNavigationBlocked("myContext")```
+- ```window.MfMaestro.isNavigationUnblocked("myContext")```
+
+When you call ```options.navigation.blockNavigation()``` or ```options.navigation.unblockNavigation()```, just pass a context as arg. It will do nothing in MfMaestro, but will allow to test that navigation block/unblock have been called.  
