@@ -19,6 +19,7 @@ function startStubbedMaestro() {
       return navigationQueue.includes(`Navigation unblocked ${context}`);
     },
     eventHasBeenEmitted: (event, args, options) => {
+      if (!args) args = [];
       if (!options) options = {};
       if (!options.count) options.count = 1;
       const emittedEvents = outputEventsQueue.filter(
