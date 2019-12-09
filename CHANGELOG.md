@@ -1,3 +1,7 @@
+## 0.0.5 && 0.0.6
+
+* fix app.js dist build. Nothing new.
+
 ## 0.0.4
 
 * add events queue and navigation for testability
