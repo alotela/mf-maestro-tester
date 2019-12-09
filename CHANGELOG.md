@@ -1,3 +1,7 @@
+## 0.0.7
+
+* eventHasBeenEmitted can now be called with only 1 parameter (and args == [] by default)
+
 ## 0.0.5 && 0.0.6
 
 * fix app.js dist build. Nothing new.
