@@ -7,6 +7,7 @@ const emittedEvent = [
 ];
 
 const emittedEvent1 = ["event2", [123]];
+const emittedEvent2 = ["event3", []];
 
 const emitEvent = ClientFunction((ee) => window.MfMaestro.events.emit(ee[0], ...ee[1]));
 
@@ -70,6 +71,7 @@ test("count options.count times", async t => {
 test("store all emitted events", async t => {
   await emitEvent(emittedEvent);
   await emitEvent(emittedEvent1);
+  await emitEvent(emittedEvent2);
   const result = await t.eval(
     () => window.MfMaestro.eventHasBeenEmitted(emittedEvent[0], emittedEvent[1]),
     {
@@ -84,4 +86,11 @@ test("store all emitted events", async t => {
     }
   );
   await t.expect(result1).eql({events: [['event2', emittedEvent1[1]]], count: 1, isOk: true, errors: []});
+  const result2 = await t.eval(
+    () => window.MfMaestro.eventHasBeenEmitted(emittedEvent2[0]),
+    {
+      dependencies: {emittedEvent2}
+    }
+  );
+  await t.expect(result2).eql({events: [["event3", []]], count: 1, isOk: true, errors: []});
 });
