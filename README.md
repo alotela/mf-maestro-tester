@@ -35,9 +35,10 @@ This will be merged with ```params``` from query string.
 
 ## events queue for tests
 
-All emitted events are logged in a queue available on ```window.MfMaestro.outputEventsQueue```. An event il logged as a tuple ```[event, args]``` (string, array).  
+All emitted events are logged in a queue available on ```window.MfMaestro.outputEventsQueue```. An event is logged as a tuple ```[event, args]``` (string, array).  
 If you want to test for an event, you can use ```window.MfMaestro.eventHasBeenEmitted(event, args, options)```.  
-Options accepts these attributes:  
+Args is an array with all args you passed to emit, AFTER the event name. Since it is optional, if you don't specify it, and call ```window.MfMaestro.eventHasBeenEmitted(event)```, it will be equal to an empty array.  
+Options is optional and accepts these attributes:  
 
 - **count** : the number of times you expect the event has been emitted  
 
