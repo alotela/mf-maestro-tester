@@ -22,7 +22,7 @@ module.exports = {
     ],
   },
   output: {
-    filename: "app.js",
+    filename: "index.js",
     libraryTarget: "umd",
     path: path.resolve(__dirname, "dist")
   }
