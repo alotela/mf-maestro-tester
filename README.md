@@ -4,7 +4,7 @@ A tool to develop MfMaestro compatible microfrontends without MfMaestro.
 It simulates a store and events so that you can use all MfMaestro features when developing your MF in an isolated page.  
 Just register your app as you would do (```window.MfMaestro.registerMicroApp("micro-app", {start, stop}```).
 In your html page's header, add the script node to load it:  
-```<script src="https://unpkg.com/mf-maestro-tester@0.0.6/dist/index.js">```  
+```<script src="https://unpkg.com/mf-maestro-tester@0.0.7/dist/index.js">```  
 and put an id equal to the registered name ("micro-app") on the div where you want to start your application:  
 ```<div id="micro-app"></div>``` 
 
