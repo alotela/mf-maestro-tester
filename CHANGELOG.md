@@ -1,3 +1,7 @@
+## 0.0.8
+
+* add removeListener
+
 ## 0.0.7
 
 * eventHasBeenEmitted can now be called with only 1 parameter (and args == [] by default)
