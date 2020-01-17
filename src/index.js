@@ -1,5 +1,5 @@
-import JSON5 from 'json5';
-import FDE from 'fast-deep-equal';
+import JSON5 from "json5";
+import FDE from "fast-deep-equal";
 
 startStubbedMaestro();
 
@@ -7,37 +7,41 @@ function startStubbedMaestro() {
   const callbacksStore = {};
   const outputEventsQueue = [];
   const navigationQueue = [];
-  const options = buildStubbedMfMaestroOptions(callbacksStore, outputEventsQueue, navigationQueue);
+  const options = buildStubbedMfMaestroOptions(
+    callbacksStore,
+    outputEventsQueue,
+    navigationQueue
+  );
   const params = getUrlParams();
 
   window.MfMaestro = {
     events: options.events,
-    isNavigationBlocked: (context) => {
+    isNavigationBlocked: context => {
       return navigationQueue.includes(`Navigation blocked ${context}`);
     },
-    isNavigationUnblocked: (context) => {
+    isNavigationUnblocked: context => {
       return navigationQueue.includes(`Navigation unblocked ${context}`);
     },
     eventHasBeenEmitted: (event, args, options) => {
       if (!args) args = [];
       if (!options) options = {};
       if (!options.count) options.count = 1;
-      const emittedEvents = outputEventsQueue.filter(
-        (queuedEvent) => FDE(queuedEvent, [event, args])
+      const emittedEvents = outputEventsQueue.filter(queuedEvent =>
+        FDE(queuedEvent, [event, args])
       );
 
       const result = {
         events: emittedEvents,
         count: emittedEvents.length,
         isOk: true,
-        errors: []
-      }
+        errors: [],
+      };
 
       result.isOk = result.count === options.count;
 
       if (result.isOk) return result;
 
-      if(result.count !== options.count) {
+      if (result.count !== options.count) {
         result.errors.push(`events pushed ${result.count} times.`);
       }
 
@@ -45,40 +49,47 @@ function startStubbedMaestro() {
     },
     navigation: options.navigation,
     outputEventsQueue,
-    registerMicroApp: function (microAppName, microAppObject) {
+    registerMicroApp: function(microAppName, microAppObject) {
       microAppObject.start(
         document.getElementById(microAppName),
         { ...(window.MfMaestroAppParams || {}), ...params.routeParams },
         { ...options, ...params.queryParams }
       );
-    }
+    },
   };
 }
 
-function buildStubbedMfMaestroOptions(callbacksStore, outputEventsQueue, navigationQueue) {
+function buildStubbedMfMaestroOptions(
+  callbacksStore,
+  outputEventsQueue,
+  navigationQueue
+) {
   return {
     groupRef: "hooked-react-app@groupRef",
     events: {
       emit: (event, ...args) => {
         outputEventsQueue.push([event, args]);
         callbacksStore[event]
-        ? callbacksStore[event].forEach(cbk =>  cbk(...args, event) )
+          ? callbacksStore[event].forEach(cbk => cbk(...args, event))
           : null;
-        },
+      },
       on: (event, callback, context) =>
         callbacksStore[event]
           ? callbacksStore[event].push(callback)
           : (callbacksStore[event] = [callback]),
+      removeListener: (event, callback, context) => {
+        callbacksStore[event].splice(callbacksStore[event].indexOf(callback));
+      },
     },
     navigation: {
-      blockNavigation: (context) => {
+      blockNavigation: context => {
         console.log(`Navigation blocked ${context}`);
         navigationQueue.push(`Navigation blocked ${context}`);
       },
-      unblockNavigation: (context) => {
+      unblockNavigation: context => {
         console.log(`Navigation unblocked ${context}`);
         navigationQueue.push(`Navigation unblocked ${context}`);
-      }
+      },
     },
   };
 }
@@ -86,8 +97,7 @@ function buildStubbedMfMaestroOptions(callbacksStore, outputEventsQueue, navigat
 function getUrlParams() {
   const urlParams = new URLSearchParams(window.location.search);
   return {
-    routeParams: JSON5.parse(urlParams.get('params')) || {},
-    queryParams: JSON5.parse(urlParams.get('query')) || {}
+    routeParams: JSON5.parse(urlParams.get("params")) || {},
+    queryParams: JSON5.parse(urlParams.get("query")) || {},
   };
 }
-
