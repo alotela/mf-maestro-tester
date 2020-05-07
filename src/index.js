@@ -49,13 +49,14 @@ function startStubbedMaestro() {
     },
     navigation: options.navigation,
     outputEventsQueue,
-    registerMicroApp: function(microAppName, microAppObject) {
+    registerMicroApp: function (microAppName, microAppObject) {
       microAppObject.start(
         document.getElementById(microAppName),
         { ...(window.MfMaestroAppParams || {}), ...params.routeParams },
         { ...options, ...params.queryParams }
       );
     },
+    services: options.services,
   };
 }
 
@@ -91,6 +92,11 @@ function buildStubbedMfMaestroOptions(
         navigationQueue.push(`Navigation unblocked ${context}`);
       },
     },
+    services: {
+      notify: payload => {
+        console.log("Notify!", payload);
+      },
+    }
   };
 }
 
