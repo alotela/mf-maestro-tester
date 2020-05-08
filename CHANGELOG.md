@@ -1,3 +1,7 @@
+## 0.0.9
+
+* add services.notity stub
+
 ## 0.0.8
 
 * add removeListener
