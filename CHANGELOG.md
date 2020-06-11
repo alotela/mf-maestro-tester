@@ -1,3 +1,7 @@
+## 0.0.11
+
+- update packages
+
 ## 0.0.10
 
 - add services.acls stub
