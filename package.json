@@ -29,5 +29,5 @@
     "stop": "kill $(ps aux | grep '[w]ebpack-dev-server' | awk '{print $2}')",
     "test": "(npm start &) && testcafe chrome:headless ./tests/*.test.js && npm run stop"
   },
-  "version": "0.0.9"
+  "version": "0.0.10"
 }
