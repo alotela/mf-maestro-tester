@@ -4,10 +4,12 @@ import FDE from "fast-deep-equal";
 startStubbedMaestro();
 
 function startStubbedMaestro() {
+  const aclsArray = [];
   const callbacksStore = {};
   const outputEventsQueue = [];
   const navigationQueue = [];
   const options = buildStubbedMfMaestroOptions(
+    aclsArray,
     callbacksStore,
     outputEventsQueue,
     navigationQueue
@@ -16,17 +18,17 @@ function startStubbedMaestro() {
 
   window.MfMaestro = {
     events: options.events,
-    isNavigationBlocked: context => {
+    isNavigationBlocked: (context) => {
       return navigationQueue.includes(`Navigation blocked ${context}`);
     },
-    isNavigationUnblocked: context => {
+    isNavigationUnblocked: (context) => {
       return navigationQueue.includes(`Navigation unblocked ${context}`);
     },
     eventHasBeenEmitted: (event, args, options) => {
       if (!args) args = [];
       if (!options) options = {};
       if (!options.count) options.count = 1;
-      const emittedEvents = outputEventsQueue.filter(queuedEvent =>
+      const emittedEvents = outputEventsQueue.filter((queuedEvent) =>
         FDE(queuedEvent, [event, args])
       );
 
@@ -57,10 +59,12 @@ function startStubbedMaestro() {
       );
     },
     services: options.services,
+    aclsArray,
   };
 }
 
 function buildStubbedMfMaestroOptions(
+  aclsArray,
   callbacksStore,
   outputEventsQueue,
   navigationQueue
@@ -71,7 +75,7 @@ function buildStubbedMfMaestroOptions(
       emit: (event, ...args) => {
         outputEventsQueue.push([event, args]);
         callbacksStore[event]
-          ? callbacksStore[event].forEach(cbk => cbk(...args, event))
+          ? callbacksStore[event].forEach((cbk) => cbk(...args, event))
           : null;
       },
       on: (event, callback, context) =>
@@ -83,20 +87,28 @@ function buildStubbedMfMaestroOptions(
       },
     },
     navigation: {
-      blockNavigation: context => {
+      blockNavigation: (context) => {
         console.log(`Navigation blocked ${context}`);
         navigationQueue.push(`Navigation blocked ${context}`);
       },
-      unblockNavigation: context => {
+      unblockNavigation: (context) => {
         console.log(`Navigation unblocked ${context}`);
         navigationQueue.push(`Navigation unblocked ${context}`);
       },
     },
     services: {
-      notify: payload => {
+      acls: {
+        acls: () => aclsArray,
+        hasAcl: (acl) => aclsArray.includes(acl),
+        hasAnyAcls: (acls) => aclsArray.some((acl) => acls.includes(acl)),
+        hasAcls: (acls) => acls.every((acl) => aclsArray.includes(acl)),
+        removeAcls: () => null,
+        resetAcls: (acls) => (aclsArray = acls),
+      },
+      notify: (payload) => {
         console.log("Notify!", payload);
       },
-    }
+    },
   };
 }
 
