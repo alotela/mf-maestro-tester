@@ -82,6 +82,10 @@ function buildStubbedMfMaestroOptions(
         callbacksStore[event]
           ? callbacksStore[event].push(callback)
           : (callbacksStore[event] = [callback]),
+      once: (event, callback, context) =>
+        callbacksStore[event]
+          ? callbacksStore[event].push(callback)
+          : (callbacksStore[event] = [callback]),
       removeListener: (event, callback, context) => {
         callbacksStore[event].splice(callbacksStore[event].indexOf(callback));
       },
